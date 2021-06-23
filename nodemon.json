@@ -1,0 +1,11 @@
+{
+  "watch": [
+    "src/**/*.ts",
+    "src/*.ts"
+  ],
+  "ext": "ts,json",
+  "ignore": [
+    "src/**/*.spec.ts"
+  ],
+  "exec": "tsc && node dist/app.js --value=1 --from=BTC --to=USD"
+}
