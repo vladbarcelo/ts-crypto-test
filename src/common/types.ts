@@ -33,6 +33,12 @@ export type CurrencySearchCriterion = {
   quotes?: string[]
 }
 
+export type CurrencyConvertOptions = {
+  symbol: string
+  convert: string[]
+  amount: number
+}
+
 export type CurrencyItem = {
   symbol: string
   quote?: CurrencyQuote[]
@@ -54,7 +60,6 @@ export interface ICurrencyModel {
 }
 
 export interface ICurrencyValidator extends IValidator {
-  validateFlow(flow: string): void
   validateCurrency(data: CurrencyValidationData): void
 }
 

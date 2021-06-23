@@ -19,42 +19,17 @@ export class CurrencyModel extends AbstractCurrencyModel {
     return await this.repository.getItems(options)
   }
 
-  async establishConvertFlow(currencyA: CurrencyItem, currencyB: CurrencyItem): Promise<string> {
-    const currencies = await this.list()
-
-    for (let currency of currencies) {
-      if (currency.symbol === currencyA.symbol) {
-        return 'regular'
-      }
-      if (currency.symbol === currencyB.symbol) {
-        return 'reversed'
-      }
-    }
-    this.validator.reportInvalidation(`Please check your currency list. Neither ${currencyA.symbol} nor ${currencyB.symbol} were identified as valid cryptocurrencies.`)
-  }
-
-  calculate(flow: string, rate: number, value: number, digits: number): number {
-    this.validator.validateFlow(flow)
-    let result = 0
-    if (flow === 'regular') {
-      result = value * rate
-    } else if (flow === 'reversed') {
-      result = value / rate
-    }
+  calculate(rate: number, value: number, digits: number): number {
+    const result = value * rate
     return Number(result.toFixed(digits))
   }
 
   async convertItems(fromCurrency: CurrencyItem, toCurrency: CurrencyItem, value: number, digits: number): Promise<number> {
-    // Which one is the crypto?
-    const flow = await this.establishConvertFlow(fromCurrency, toCurrency)
-    if (flow === 'reversed') {
-      [fromCurrency, toCurrency] = [toCurrency, fromCurrency]
-    }
-    const options = { symbol: fromCurrency.symbol, quotes: [toCurrency.symbol] }
+    const options = { symbol: fromCurrency.symbol, convert: [toCurrency.symbol], amount: value }
     const currency = await this.first(options)
     this.validator.validateCurrency({ currencyToValidate: currency, targetCurrency: toCurrency })
     const rate = currency.quote[toCurrency.symbol].price
 
-    return this.calculate(flow, rate, value, digits)
+    return this.calculate(rate, value, digits)
   }
 }

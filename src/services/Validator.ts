@@ -9,6 +9,9 @@ abstract class Validator implements IValidator {
 }
 
 export class CurrencyValidator extends Validator {
+  reportInvalidation(message: string): void {
+    throw new Error(message)
+  }
   validateCurrency(data: CurrencyValidationData): void {
     if (!data.currencyToValidate.hasOwnProperty('quote')) {
       this.reportInvalidation(`Currency ${data.currencyToValidate.symbol} has no 'quote' prop.`)
@@ -18,12 +21,6 @@ export class CurrencyValidator extends Validator {
     }
     if (!data.currencyToValidate.quote[data.targetCurrency.symbol].hasOwnProperty('price')) {
       this.reportInvalidation(`Currency ${data.currencyToValidate.symbol} has no defined change rate to ${data.targetCurrency.symbol}.`)
-    }
-  }
-
-  validateFlow(flow: string): void {
-    if (!['regular', 'reversed'].includes(flow)) {
-      this.reportInvalidation(`Unexpected flow: ${flow}`)
     }
   }
 }

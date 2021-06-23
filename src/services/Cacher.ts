@@ -1,11 +1,13 @@
 import { ICacher, CacheItem } from '../common/types'
-import { readFileSync, writeFileSync, existsSync, unlinkSync } from 'fs'
+import { readFileSync, writeFileSync, existsSync, unlinkSync, readdirSync } from 'fs'
+import { join } from 'path'
 
 abstract class AbstractCacher implements ICacher {
   abstract set(key: string, value: string): void
   abstract get(key: string): string | null
   abstract checkValidity(key: string): boolean
   abstract invalidate(key: string): void
+  abstract invalidateAll(): void
   abstract getCacheItem(key: string): CacheItem | null
   abstract setCacheItem(key: string, data: CacheItem): void
   abstract getCachePath(key: string): string
@@ -44,13 +46,21 @@ export class Cacher extends AbstractCacher {
     const cacheTStamp = new Date(data.tStamp)
     const currentTStamp = new Date()
     const diff = Math.abs(currentTStamp.getTime() - cacheTStamp.getTime());
-    const diffDays = Math.ceil(diff / (1000 * 3600 * 24));
-    if (diffDays < Number(process.env.CACHE_DURATION_DAYS)) {
+    const diffMinutes = Math.ceil(diff / (1000 * 60));
+    if (diffMinutes < Number(process.env.CACHE_DURATION_MINUTES || 1)) {
       return false
     }
     return true
   }
   invalidate(key: string) {
     unlinkSync(this.getCachePath(key))
+  }
+  invalidateAll() {
+    const directory = process.env.CACHE_PATH
+    for (let file of readdirSync(directory)) {
+      if (file !== '.gitkeep') {
+        unlinkSync(join(directory, file))
+      }
+    }
   }
 }
