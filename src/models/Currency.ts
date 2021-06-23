@@ -19,17 +19,17 @@ export class CurrencyModel extends AbstractCurrencyModel {
     return await this.repository.getItems(options)
   }
 
-  calculate(rate: number, value: number, digits: number): number {
+  calculateConversion(rate: number, value: number, digits: number): number {
     const result = value * rate
     return Number(result.toFixed(digits))
   }
 
   async convertItems(fromCurrency: CurrencyItem, toCurrency: CurrencyItem, value: number, digits: number): Promise<number> {
     const options = { symbol: fromCurrency.symbol, convert: [toCurrency.symbol], amount: value }
-    const currency = await this.first(options)
-    this.validator.validateCurrency({ currencyToValidate: currency, targetCurrency: toCurrency })
-    const rate = currency.quote[toCurrency.symbol].price
+    const sourceCurrencyData = await this.first(options)
+    this.validator.validateCurrency({ currencyToValidate: sourceCurrencyData, targetCurrency: toCurrency })
+    const conversionRate = sourceCurrencyData.quote[toCurrency.symbol].price
 
-    return this.calculate(rate, value, digits)
+    return this.calculateConversion(conversionRate, value, digits)
   }
 }
