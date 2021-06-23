@@ -4,6 +4,8 @@
 $ git clone https://github.com/vladbarcelo/ts-crypto-test.git
 $ npm i
 $ npm run build
+$ cp .env.example .env
+# Don't forget to enter your API key in .env
 ```
 
 # Usage
