@@ -12,5 +12,8 @@ $ cp .env.example .env
 
 ```bash
 $ node dist/app.js --value=10 --from=BTC --to=USD
-# 340162.75908061455
+# 340162.75
+# You can also select the digit count
+$ node dist/app.js --value=10 --from=BTC --to=USD --digits=4
+# 340162.7590
 ```
