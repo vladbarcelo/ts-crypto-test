@@ -42,12 +42,12 @@ export class Cacher extends AbstractCacher {
     if (!existsSync(this.getCachePath(key))) {
       return false
     }
-    const data = JSON.parse(this.get(key))
-    const cacheTStamp = new Date(data.tStamp)
+    const { tStamp } = this.getCacheItem(key)
+    const cacheTStamp = new Date(tStamp)
     const currentTStamp = new Date()
     const diff = Math.abs(currentTStamp.getTime() - cacheTStamp.getTime());
     const diffMinutes = Math.ceil(diff / (1000 * 60));
-    if (diffMinutes < Number(process.env.CACHE_DURATION_MINUTES || 1)) {
+    if (diffMinutes > Number(process.env.CACHE_DURATION_MINUTES || 1)) {
       return false
     }
     return true
