@@ -172,6 +172,11 @@
   dependencies:
     defer-to-connect "^1.0.1"
 
+"@types/big.js@^6.1.1":
+  version "6.1.1"
+  resolved "https://registry.yarnpkg.com/@types/big.js/-/big.js-6.1.1.tgz#c2be5e81e0cf0c1c31704e3b12f750712f647414"
+  integrity sha512-Zns+nT0hj96ie+GDbL5NeHxhL4wNz8QMxCHqBvxgc4x0hhgQ/o92rPwqxvPBhY3ZYnH8TJGw/8oCkjhOy2Rfzw==
+
 "@types/minimist@^1.2.0":
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/@types/minimist/-/minimist-1.2.1.tgz#283f669ff76d7b8260df8ab7a4262cc83d988256"
@@ -277,6 +282,11 @@ balanced-match@^1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.2.tgz#e83e3a7e3f300b34cb9d87f615fa0cbf357690ee"
   integrity sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==
+
+big.js@^6.1.1:
+  version "6.1.1"
+  resolved "https://registry.yarnpkg.com/big.js/-/big.js-6.1.1.tgz#63b35b19dc9775c94991ee5db7694880655d5537"
+  integrity sha512-1vObw81a8ylZO5ePrtMay0n018TcftpTA5HFKDaSuiUDBo8biRBtjIobw60OpwuvrGk+FsxKamqN4cnmj/eXdg==
 
 binary-extensions@^2.0.0:
   version "2.2.0"
